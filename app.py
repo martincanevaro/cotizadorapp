@@ -1,7 +1,9 @@
 from flask import Flask, jsonify,request,Response
+from flask_cors import CORS
 import json
 import requests
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/cotizacion/dolar',methods=['GET'])
 def cotizacionDolar():			
@@ -26,7 +28,7 @@ def cotizacionReal():
     })
 def apicotizacion(divisa):
 	key="6265|XTCEQd6Zb78ahZKQ4d4AuMHisuU0hnXg"
-	url="https://api.cambio.today/v1/quotes/"+divisa+"/ARS/json?quantity=1&key=6265|XTCEQd6Zb78ahZKQ4d4AuMHisuU0hnXg"+key
+	url="https://api.cambio.today/v1/quotes/"+divisa+"/ARS/json?quantity=1&key="+key
 	response=requests.get(url)
 	if response.status_code==200:
 		response_json=response.json()
@@ -34,6 +36,7 @@ def apicotizacion(divisa):
 		value=result['value']
 		value=str(value)
 		return(value)
+
 if __name__=='__main__':
 	app.run(debug=True, port=5000)
 	
